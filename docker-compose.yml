@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+  main:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: example
+    depends_on:
+      - db
+    entrypoint: /bin/sh entrypoint.sh
+    volumes:
+      - .:/usr/src/app
